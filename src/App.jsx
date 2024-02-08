@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 import List from './components/List'
 import AddTask from './components/AddTask'
@@ -7,7 +7,8 @@ import AddTask from './components/AddTask'
 function App() {
 
   const [data, setData] = useState([])
-
+  const ref = useRef()
+  console.log(ref)
 
   return (
     <>
