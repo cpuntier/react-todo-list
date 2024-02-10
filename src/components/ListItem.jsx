@@ -1,24 +1,22 @@
 import { useRef, useState,useEffect } from "react";
 
 export default function ListItem(props) {
+    console.log("RERENDER")
     const currentItem = props.data.find((item) => item.id === props.id);
-
     const inputRef = useRef(null);
+    console.log("This was found",props.data.find((item) => item.id === props.id))
+    console.log("current item",currentItem);
+
     const [editListItem, setEditListItem] = useState(false);
-    const [input, setInput] = useState(currentItem.content);
+    const [input, setInput] = useState("");
     const [checked, setChecked] = useState(currentItem.done);
-
-
-    console.log(props.id,currentItem);
-
-
-
 
     function handleDelete() {
         const data = props.data
         const newData = data.filter((item) => item.id != props.id)
-        console.log(newData);
+   //     console.log(newData);
         props.setData(newData);
+        setChecked(false);
     }
 
     function editedListItem() {
@@ -39,13 +37,18 @@ export default function ListItem(props) {
         setChecked(!checked)
     }
 
+    function editHandler(){
+        setInput(currentItem.content);
+        setEditListItem(true);
+    }
+
     return (
         <>
             <li key = {props.id}>
 
                 {editListItem ?
                     <>
-                        <label>
+                        <label >
                             <input ref = {inputRef} type="text" value={input} onChange={editedListItem} />
                         </label>
 
@@ -54,11 +57,11 @@ export default function ListItem(props) {
                     :
                     <>
                         <label>
-                            <input type="checkbox" checked={currentItem.done}  onChange={checkHandler}/> <span ref = {inputRef}>{currentItem.content}</span>
+                            <input type="checkbox" checked={currentItem.done}  onChange={checkHandler}/> <span style={{textDecoration: checked ? "line-through": ""}}>{currentItem.content}</span>
                         </label>
 
-                        <button onClick={() => setEditListItem(true)}>Edit</button>
-                        <button onClick={handleDelete}>Delete</button>
+                        <button onClick={() => {console.log(currentItem.content);setInput(currentItem.content);setEditListItem(true);}}>Edit</button>
+                        <button onClick={handleDelete} disabled = {!checked}>Delete</button>
                     </>}
             </li>
         </>
