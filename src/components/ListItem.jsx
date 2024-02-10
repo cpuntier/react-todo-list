@@ -16,7 +16,7 @@ export default function ListItem(props) {
         const newData = data.filter((item) => item.id != props.id)
    //     console.log(newData);
         props.setData(newData);
-        setChecked(false);
+        setChecked(!checked);
     }
 
     function editedListItem() {
